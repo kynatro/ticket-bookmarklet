@@ -1,0 +1,13 @@
+{
+  "noarg": true,
+  "noempty": true,
+  "boss": true,
+  "loopfunc": true,
+  "bitwise": true,
+  "undef": true,
+  "browser": true,
+  "jquery": true,
+  "maxerr": 50,
+  "expr": true,
+  "predef": ["process", "console", "define", "require", "JST", "alert", "module", "__dirname"]
+}
