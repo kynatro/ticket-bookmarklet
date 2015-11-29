@@ -21,3 +21,6 @@ Thumbs.db
 # Ignore managed package files
 *node_modules*
 *bower_components*
+
+# added by GitSavvy
+/dist/
