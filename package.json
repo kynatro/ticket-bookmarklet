@@ -9,6 +9,7 @@
     "start": "webpack-dev-server --devtool source-map --progress --colors --hot --inline --content-base=dist"
   },
   "dependencies": {
+    "autoprefixer-loader": "^3.1.0",
     "babel-core": "^6.1.20",
     "babel-loader": "^6.1.0",
     "babel-plugin-transform-runtime": "^6.1.18",
@@ -21,6 +22,7 @@
     "file-loader": "^0.8.4",
     "history": "^1.13.1",
     "path": "^0.12.7",
+    "postcss-loader": "^0.8.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-router": "^1.0.0",

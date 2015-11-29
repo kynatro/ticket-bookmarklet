@@ -1,6 +1,7 @@
 require('dotenv').load();
 
-var path = require('path'),
+var autoprefixer = require('autoprefixer'),
+    path = require('path'),
     webpack = require('webpack'),
     BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
@@ -36,11 +37,11 @@ module.exports = {
       },
       {
         test: /\.css$/, // Only .css files
-        loader: 'style!css' // Run both loaders
+        loader: 'style!css!postcss' // Run both loaders
       },
       {
         test: /\.s?css$/,
-        loader: 'style!css!sass'
+        loader: 'style!css!sass!postcss'
       },
       {
         test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
@@ -48,6 +49,11 @@ module.exports = {
       }
     ]
   },
+  postcss: [
+    autoprefixer({
+      browsers: ['last 2 versions']
+    })
+  ],
   plugins: [
     new BrowserSyncPlugin({
       files: [
