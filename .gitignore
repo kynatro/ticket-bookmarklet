@@ -24,3 +24,6 @@ Thumbs.db
 
 # added by GitSavvy
 /dist/
+
+# added by GitSavvy
+/.env

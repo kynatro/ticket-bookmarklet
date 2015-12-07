@@ -5,7 +5,7 @@ var autoprefixer = require('autoprefixer'),
     webpack = require('webpack'),
     BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-module.exports = {
+var WebpackConfig = {
   cache: true,
 	context: path.resolve(__dirname, 'source'),
   resolve: {
@@ -13,7 +13,8 @@ module.exports = {
   },
   entry: {
     application: './application.jsx',
-    index: './index.html'
+    index: './index.html',
+    vendor: ['jquery']
   },
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -46,6 +47,10 @@ module.exports = {
       {
         test: /\.(woff|svg|ttf|eot)([\?]?.*)$/,
         loader: "file?name=[name].[ext]"
+      },
+      {
+        test: /jquery\.js$/,
+        loader: 'expose?jQuery!expose?$'
       }
     ]
   },
@@ -55,6 +60,7 @@ module.exports = {
     })
   ],
   plugins: [
+    // Configure BrowserSync with WebpackDevServer
     new BrowserSyncPlugin({
       files: [
         "dist/**/*.html",
@@ -79,13 +85,25 @@ module.exports = {
     }, {
       reload: false
     }),
+    // Resolve Bower managed packages
     new webpack.ResolverPlugin(
       new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
     ),
+    // Expose some modules globally to every module (so you
+    // don't have to explicitly require them)
     new webpack.ProvidePlugin({
       React: "react",
       jQuery: "jquery",
       $: "jquery"
-    })
+    }),
+    // Define some global variables
+    // NOTE: Variables are evaluated, so must be passed in as though they
+    // are defined statically in-line.
+    new webpack.DefinePlugin({
+      TRELLO_API_KEY: '"' + process.env.TRELLO_API_KEY + '"'
+    }),
+    // Common file chunking for vendors
+    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.js")
   ]
 };
+module.exports = WebpackConfig;
