@@ -1,36 +1,20 @@
 // Styles
 import Stylesheet from "./stylesheets/app.scss"
 
-// Modules
+// React Modules
 import { render } from "react-dom"
+import history from "./config/history.js"
 import { Router, Route, IndexRoute } from "react-router"
 
-// Externals
+// External script loader
 import $script from "scriptjs"
 
-// Components
-import App from "./components/app.jsx"
-import TrelloAuthenticate from "./components/trello/authenticate.jsx"
-import TrelloNew from "./components/trello/new.jsx"
+// App routes
+import { routes } from "./config/routes.js"
 
-$script(`https://api.trello.com/1/client.js?key=${TRELLO_API_KEY}`, 'trelloApi')
-
-const routes = [
-  {
-    path: '/',
-    component: App,
-    indexRoute: { component: TrelloAuthenticate },
-    childRoutes: [
-      {
-        path: 'new',
-        component: TrelloNew
-      },
-      {
-        path: 'authenticate',
-        component: TrelloAuthenticate
-      }
-    ]
-  }
-];
-
-render(<Router routes={routes} />, document.querySelector('main'))
+// Boot app after loading Trello API successfully
+$script(`https://api.trello.com/1/client.js?key=${TRELLO_API_KEY}`, () => {
+  render(<Router history={history} routes={routes} />, document.querySelector('main'))
+}, (notFound) => {
+  console.log("Trello API could not be loaded")
+})

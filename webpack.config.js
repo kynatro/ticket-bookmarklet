@@ -100,7 +100,8 @@ var WebpackConfig = {
     // NOTE: Variables are evaluated, so must be passed in as though they
     // are defined statically in-line.
     new webpack.DefinePlugin({
-      TRELLO_API_KEY: '"' + process.env.TRELLO_API_KEY + '"'
+      APP_NAME: JSON.stringify("Trello Ticket Bookmarklet"),
+      TRELLO_API_KEY: JSON.stringify(process.env.TRELLO_API_KEY)
     }),
     // Common file chunking for vendors
     new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.js")
