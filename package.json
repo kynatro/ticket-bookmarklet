@@ -4,6 +4,7 @@
   "description": "A bookmarklet for creating QA tickets in Trello",
   "repository": "",
   "main": "dist/app.js",
+  "license": "MIT",
   "scripts": {
     "build": "webpack -p",
     "start": "webpack-dev-server --devtool source-map --progress --colors --hot --inline --content-base=dist"
