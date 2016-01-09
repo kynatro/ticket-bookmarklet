@@ -15,22 +15,26 @@ class App extends React.Component {
 
   authorize() {
     new Promise((resolve, reject) => {
-      Trello.authorize({
-        type: "popup",
-        name: APP_NAME,
-        scope: {
-          read: true,
-          write: true
-        },
-        expiration: "30days",
-        persist: true,
-        success: () => {
-          resolve(true)
-        },
-        failure: () => {
-          reject(false)
-        }
-      })
+      Trello.authorize()
+
+      if(Trello.authorized()) {
+        Trello.authorize({
+          type: "popup",
+          name: APP_NAME,
+          scope: {
+            read: true,
+            write: true
+          },
+          expiration: "30days",
+          persist: true,
+          success: () => {
+            resolve(true)
+          },
+          failure: () => {
+            reject(false)
+          }
+        })
+      }
     })
     .then(() => {
       console.log("Trello authorization successful")
@@ -44,7 +48,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container-fluid">
         {this.props.children}
       </div>
     )

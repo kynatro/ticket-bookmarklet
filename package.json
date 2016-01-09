@@ -34,6 +34,7 @@
     "script-loader": "^0.6.1",
     "scriptjs": "^2.5.8",
     "style-loader": "^0.13.0",
+    "ua-parser-js": "^0.7.10",
     "webpack": "^1.12.4",
     "webpack-dev-server": "^1.12.1"
   }

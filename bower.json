@@ -1,7 +1,7 @@
 {
   "name": "ticket-bookmarklet",
   "description": "A bookmarklet for creating QA tickets in Trello",
-  "main": "dist/app.js",
+  "main": "dist/application.js",
   "authors": [
     "Dave Shepard <dave@kynatro.com>"
   ],
@@ -17,6 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "bootstrap": "v4.0.0-alpha.2"
   }
 }

@@ -1,3 +1,5 @@
+import Stylesheet from "../../stylesheets/components/boards.scss"
+
 class TrelloBoards extends React.Component {
   constructor(props) {
     super(props)
@@ -45,7 +47,7 @@ class TrelloBoards extends React.Component {
     }
 
     return (
-      <select onChange={this.props.selectBoard} value={this.props.boardId}>
+      <select onChange={this.props.update} value={this.props.boardId} className={this.constructor.name}>
         {optionGroups}
       </select>
     )

@@ -1,12 +1,4 @@
 class TrelloBoardLists extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.defaultProps = {
-      lists: []
-    }
-  }
-
   render() {
     let options = []
 
@@ -15,7 +7,7 @@ class TrelloBoardLists extends React.Component {
     })
 
     return (
-      <select onChange={this.props.selectList} value={this.props.listId}>
+      <select onChange={this.props.update} value={this.props.listId} className={this.constructor.name}>
         {options}
       </select>
     )
