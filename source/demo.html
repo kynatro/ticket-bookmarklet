@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticket Bookmarklet</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <script src="vendor.js"></script>
+    <script src="demo.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <div class="jumbotron">
+        <h1 class="display-1">Ticket Bookmarklet</h1>
+
+        <p class="lead"><strong>Easily submit tickets to your Trello board.</strong> You will be asked to authorize Trello the first time you click on the bookmarklet, but everything will just work automatically after that. The bookmarklet will create a new card in the Trello list of your choice with all relevant user browser environment information.</p>
+
+        <p class="text-sm-center">
+          <a href='javascript:(!function(t){function e(s){if(i[s])return i[s].exports;var o=i[s]={exports:{},id:s,loaded:!1};return t[s].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var i={};return e.m=t,e.c=i,e.p="/",e(0)}([function(t,e,i){i(1),window.TicketBookmarklet.show()},function(t,e,i){!function(t,e){var i={build:function(){var t=document.createElement("div"),e=document.createElement("iframe");t.id="ticket-bookmarklet",e.src=this.host+"/index.html",t.appendChild(e),this.elements.container=t,this.elements.iframe=e,this.elements.stylesheet=this.stylesheet(),this.hide(),document.body.appendChild(t),document.body.appendChild(this.stylesheet())},hide:function(){this.elements.container.style.marginRight="-"+this.width+"px",this.visible=!1},load:function(){return this._loaded?!1:(this.elements={},this.host="http://localhost:5000",this.speed="0.35s",this.visible=!1,this.width=350,this.build(),void(this._loaded=!0))},show:function(){this.elements.container.style.marginRight="0px",this.visible=!0},stylesheet:function(){var t=document.createElement("style");return t.media="screen",t.type="text/css",t.innerHTML="#ticket-bookmarklet {  position:fixed; top:0;  right:0;  bottom:0; max-width:"+this.width+"px; width:100%; height:100%;  border-left:1px solid #d2d2d2;  box-shadow:0 0 25px rgba(0,0,0,0.25); -moz-transition:margin-right "+this.speed+" ease-in-out;  -webkit-transition:margin-right "+this.speed+" ease-in-out; transition:margin-right "+this.speed+" ease-in-out; } #ticket-bookmarklet iframe {  position:absolute;  width:100%; height:100%;  border:none;  }",t},toggle:function(){this.visible?this.hide():this.show()}};t.TicketBookmarklet=t.TicketBookmarklet||i,t.TicketBookmarklet.load()}(window,null)}]))' id="demo" class="btn btn-primary btn-lg" role="button">Submit Ticket</a>
+        </p>
+
+        <p class="text-muted text-sm-center">To install, drag this button to your bookmark bar</p>
+    </main>
+
+    <script src="bookmarklet.js"></script>
+  </body>
+</html>

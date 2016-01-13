@@ -1,5 +1,6 @@
 class TrelloBoardLists extends React.Component {
   render() {
+    let classNames = `${this.constructor.name} c-select`
     let options = []
 
     this.props.lists.forEach((list) => {
@@ -7,7 +8,7 @@ class TrelloBoardLists extends React.Component {
     })
 
     return (
-      <select onChange={this.props.update} value={this.props.listId} className={this.constructor.name}>
+      <select onChange={this.props.update} value={this.props.listId} className={classNames}>
         {options}
       </select>
     )

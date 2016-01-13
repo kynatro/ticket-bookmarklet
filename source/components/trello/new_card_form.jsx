@@ -1,29 +1,34 @@
+import Stylesheet from "../../stylesheets/components/new_card_form.scss"
+
 import UaParser from "ua-parser-js"
+
 import TrelloBoards from "./boards.jsx"
 import TrelloBoardLists from "./board_lists.jsx"
 import TrelloScreenshots from "./screenshots.jsx"
 import FormGroup from "../common/form_group.jsx"
+import Alert from "../common/alert.jsx"
 
 let boardLists = {}
 
-class NewCardForm extends React.Component {
+class TrelloNewCardForm extends React.Component {
   constructor(props) {
     super(props)
 
     this.getBoards.bind(this)
     this.selectBoard.bind(this)
 
-    this.$window = $(window.parent)
-
     this.state = {
       boards: [],
       boardId: localStorage.getItem('boardId'),
-      cardName: "",
       cardDescription: "",
+      cardName: "",
       lists: [],
       listId: localStorage.getItem('listId'),
+      message: "",
       organizations: {},
-      screenshots: []
+      response: null,
+      screenshots: [],
+      submitting: false
     }
   }
 
@@ -88,35 +93,55 @@ class NewCardForm extends React.Component {
   }
 
   render() {
+    let message
+
+    if(this.state.response) {
+      message = <Alert type={this.state.response}>{this.state.message}</Alert>
+    }
+
     return (
-      <form onSubmit={this.submit.bind(this)}>
-        <FormGroup label="Board:" className="row">
+      <form onSubmit={this.submit.bind(this)} className={this.constructor.name}>
+        <FormGroup label="Board:">
           <TrelloBoards boardId={this.state.boardId} boards={this.state.boards} update={this.selectBoard.bind(this)} />
         </FormGroup>
 
-        <FormGroup label="List:" className="row">
+        <FormGroup label="List:">
           <TrelloBoardLists listId={this.state.listId} lists={this.state.lists} update={this.selectList.bind(this)} />
         </FormGroup>
 
-        <FormGroup label="Name:" className="row">
-          <input type="text" className="form-control" onChange={this.updateCardName.bind(this)} value={this.state.cardName} />
+        <FormGroup label="Name:">
+          <input type="text" className="form-control" onChange={this.updateCardName.bind(this)} value={this.state.cardName} required />
         </FormGroup>
 
-        <FormGroup label="Description:" textMuted="Markdown allowed in this field" className="row">
-          <textarea className="form-control" onChange={this.updateCardDescription.bind(this)} value={this.state.cardDescription} rows="5"></textarea>
+        <FormGroup label="Description:" textMuted="Markdown allowed in this field">
+          <textarea className="form-control" onChange={this.updateCardDescription.bind(this)} value={this.state.cardDescription} rows="5" required></textarea>
         </FormGroup>
 
-        <FormGroup label="Screenshots:" textMuted="(Optional) Links from Monosnap, Droplr, Skitch, etc." className="row">
+        <FormGroup label="Screenshots:" textMuted="(Optional) Links from Monosnap, Droplr, Skitch, etc.">
           <TrelloScreenshots update={this.updateScreenshots.bind(this)} />
         </FormGroup>
 
-        <div className="form-group row">
-          <div className="col-sm-offset-2 col-sm-10">
-            <button type="submit" className="btn btn-primary">Submit Ticket</button>
-          </div>
+        {message}
+
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary" disabled={this.state.submitting}>Submit Ticket</button>
+          <span className="loading"></span>
         </div>
       </form>
     )
+  }
+
+  reset() {
+    this.setState({
+      cardName: "",
+      cardDescription: "",
+      message: "",
+      response: null,
+      screenshots: [],
+      submitting: false
+    })
+
+    window.parent.TicketBookmarklet.hide()
   }
 
   selectBoard(event) {
@@ -149,14 +174,18 @@ class NewCardForm extends React.Component {
     let device = parser.getDevice()
     let os = parser.getOS()
     let screenSize = {
-      width: this.$window.width(),
-      height: this.$window.height()
+      width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+      height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
     }
     let href = window.parent.location.href
 
     let screenshots = this.state.screenshots.reduce((memo, screenshot) => {
       return memo += "\n" + screenshot
     }, "")
+
+    this.setState({
+      submitting: true
+    })
 
     new Promise((resolve, reject) => {
       Trello.post("/cards/", {
@@ -174,7 +203,7 @@ class NewCardForm extends React.Component {
 **Device model:** ${device.model || "Unknown"}
 **OS:** ${os.name}
 **OS Version:** ${os.version}
-**Screen size:** ${screenSize.width} x ${screenSize.height}
+**Screen size:** ${screenSize.width}px x ${screenSize.height}px
 
 ---
 
@@ -190,9 +219,21 @@ ${screenshots}`,
       })
     })
     .then((response) => {
+      this.setState({
+        response: "success",
+        message: <strong>Card created successfully!</strong>
+      })
+
+      this.reset()
+
       console.log("Trello card created", response)
     })
     .catch((reason) => {
+      this.setState({
+        response: "danger",
+        message: <span><strong>Card could not be created:</strong> {reason}</span>,
+        submitting: false
+      })
       console.error("Trello card could not be created", reason)
     })
   }
@@ -216,4 +257,4 @@ ${screenshots}`,
   }
 }
 
-export default NewCardForm
+export default TrelloNewCardForm

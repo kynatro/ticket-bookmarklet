@@ -32,6 +32,7 @@ class TrelloBoards extends React.Component {
   }
 
   render() {
+    let classNames = `${this.constructor.name} c-select`
     let groupedBoards = this.groupedBoards()
     let optionGroups = []
 
@@ -47,7 +48,7 @@ class TrelloBoards extends React.Component {
     }
 
     return (
-      <select onChange={this.props.update} value={this.props.boardId} className={this.constructor.name}>
+      <select onChange={this.props.update} value={this.props.boardId} className={classNames}>
         {optionGroups}
       </select>
     )

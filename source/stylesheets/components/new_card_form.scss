@@ -1,0 +1,26 @@
+.TrelloNewCardForm {
+  button[type="submit"] {
+    vertical-align: top;
+
+    + .loading {
+      position: relative;
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      margin-left: 5px;
+      top: 3px;
+
+      background-image: url('../../images/loading.svg');
+      background-size: cover;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0s 0.3s;
+    }
+
+    &:disabled + .loading {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s;
+    }
+  }
+}

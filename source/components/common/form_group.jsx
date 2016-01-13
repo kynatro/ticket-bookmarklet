@@ -1,7 +1,16 @@
 class FormGroup extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.defaultProps = {
+      className: ""
+    }
+  }
+
   render() {
     let classNames = {
       formGroup: `form-group ${this.props.className || ""}`,
+      inputField: "",
       label: ""
     }
     let inputField
@@ -11,15 +20,13 @@ class FormGroup extends React.Component {
 
     if(/row/.test(classNames.formGroup)) {
       classNames.label = `${classNames.label} col-sm-2`
-      inputField = <div className="col-sm-10">{this.props.children}{textMuted}</div>
-    } else {
-      inputField = this.props.children + textMuted
+      classNames.inputField = "col-sm-10"
     }
 
     return (
       <div className={classNames.formGroup}>
         <label className={classNames.label}>{this.props.label}</label>
-        {inputField}
+        <div className={classNames.inputField}>{this.props.children}{textMuted}</div>
       </div>
     )
   }

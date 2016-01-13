@@ -13,14 +13,19 @@ var WebpackConfig = {
   },
   entry: {
     application: './application.jsx',
+    bookmarklet: './bookmarklet.js',
     index: './index.html',
+    demo: './demo.js',
+    "demo.html": './demo.html',
     vendor: ['jquery']
   },
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].js',
+    chunkFilename: '[id].js',
     publicPath: '/',
-    sourceMapFilename: "map/[file].map"
+    sourceMapFilename: "map/[file].map",
+    library: "[name]"
 	},
   module: {
     loaders: [
@@ -30,7 +35,11 @@ var WebpackConfig = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: [
+          path.resolve(__dirname, "bower_components"),
+          path.resolve(__dirname, "node_modules"),
+          path.resolve(__dirname, "source/bookmarklet.js")
+        ],
         loader: 'react-hot!babel?' + JSON.stringify({
           presets: ['react', 'es2015'],
           plugins: ['transform-runtime']
@@ -50,6 +59,9 @@ var WebpackConfig = {
       },
       {
         test: /jquery\.js$/,
+        exclude: [
+          path.resolve(__dirname, "source/bookmarklet.js")
+        ],
         loader: 'expose?jQuery!expose?$'
       }
     ]
@@ -92,19 +104,21 @@ var WebpackConfig = {
     // Expose some modules globally to every module (so you
     // don't have to explicitly require them)
     new webpack.ProvidePlugin({
-      React: "react",
-      jQuery: "jquery",
-      $: "jquery"
+      React: "react"
     }),
     // Define some global variables
     // NOTE: Variables are evaluated, so must be passed in as though they
     // are defined statically in-line.
     new webpack.DefinePlugin({
+      HOST: JSON.stringify("localhost:5000"),
       APP_NAME: JSON.stringify("Trello Ticket Bookmarklet"),
       TRELLO_API_KEY: JSON.stringify(process.env.TRELLO_API_KEY)
     }),
     // Common file chunking for vendors
-    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.js")
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ["vendor"],
+      minChunks: Infinity
+    })
   ]
 };
 module.exports = WebpackConfig;
