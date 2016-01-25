@@ -1,3 +1,12 @@
 .NewTicket {
-  padding-top: 16px;
+  padding: {
+    top: 16px;
+    bottom: 16px;
+  }
+
+  button.close {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+  }
 }

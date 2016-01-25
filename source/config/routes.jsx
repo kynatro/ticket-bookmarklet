@@ -2,6 +2,7 @@
 import App from "./../components/app.jsx"
 import TrelloAuthorizeFailed from "./../components/trello/authorize_failed.jsx"
 import NewTicket from "./../components/new_ticket.jsx"
+import Success from "./../components/success.jsx"
 
 exports.routes = [
   {
@@ -12,6 +13,10 @@ exports.routes = [
       {
         path: 'new',
         component: NewTicket
+      },
+      {
+        path: 'success',
+        component: Success
       },
       {
         path: 'authorize_failed',

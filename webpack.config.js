@@ -13,19 +13,17 @@ var WebpackConfig = {
   },
   entry: {
     application: './application.jsx',
-    bookmarklet: './bookmarklet.js',
-    index: './index.html',
+    "index.html": './index.html',
     demo: './demo.js',
     "demo.html": './demo.html',
-    vendor: ['jquery']
+    vendor: ['jquery', 'react']
   },
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].js',
     chunkFilename: '[id].js',
     publicPath: '/',
-    sourceMapFilename: "map/[file].map",
-    library: "[name]"
+    sourceMapFilename: "map/[file].map"
 	},
   module: {
     loaders: [
@@ -35,11 +33,7 @@ var WebpackConfig = {
       },
       {
         test: /\.jsx?$/,
-        exclude: [
-          path.resolve(__dirname, "bower_components"),
-          path.resolve(__dirname, "node_modules"),
-          path.resolve(__dirname, "source/bookmarklet.js")
-        ],
+        exclude: /bower_components|node_modules/,
         loader: 'react-hot!babel?' + JSON.stringify({
           presets: ['react', 'es2015'],
           plugins: ['transform-runtime']
@@ -59,9 +53,6 @@ var WebpackConfig = {
       },
       {
         test: /jquery\.js$/,
-        exclude: [
-          path.resolve(__dirname, "source/bookmarklet.js")
-        ],
         loader: 'expose?jQuery!expose?$'
       }
     ]
@@ -110,15 +101,30 @@ var WebpackConfig = {
     // NOTE: Variables are evaluated, so must be passed in as though they
     // are defined statically in-line.
     new webpack.DefinePlugin({
-      HOST: JSON.stringify("localhost:5000"),
+      HOST: JSON.stringify(process.env.HOST || "localhost:5000"),
       APP_NAME: JSON.stringify("Trello Ticket Bookmarklet"),
       TRELLO_API_KEY: JSON.stringify(process.env.TRELLO_API_KEY)
     }),
-    // Common file chunking for vendors
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ["vendor"],
-      minChunks: Infinity
-    })
+    // Vendor file chunking
+    new webpack.optimize.CommonsChunkPlugin("vendor", "vendor.js", Infinity)
   ]
 };
+
+if(process.env.BUILD) {
+  // Uglify only specific library files
+  WebpackConfig.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({
+      include: /(application|demo|vendor)\.js$/,
+      exclude: /html\.js$/,
+      compress: {
+        warnings: false
+      },
+      comments: false,
+      enclose: true,
+      minimize: true,
+      mangle: true
+    })
+  )
+}
+
 module.exports = WebpackConfig;

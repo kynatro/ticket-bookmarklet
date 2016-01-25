@@ -32,7 +32,7 @@ class TrelloScreenshots extends React.Component {
     })
 
     return (
-      <ul className="list-group">
+      <ul className="list-group screenshots">
         {screenshots}
         <li className="list-group-item"><button className="btn btn-secondary btn-sm" type="button" onClick={this.addScreenshot.bind(this)}>Add Screenshot</button></li>
       </ul>

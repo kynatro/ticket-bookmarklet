@@ -8,6 +8,8 @@ import TrelloScreenshots from "./screenshots.jsx"
 import FormGroup from "../common/form_group.jsx"
 import Alert from "../common/alert.jsx"
 
+import params from "../../common/params.js"
+
 let boardLists = {}
 
 class TrelloNewCardForm extends React.Component {
@@ -140,8 +142,6 @@ class TrelloNewCardForm extends React.Component {
       screenshots: [],
       submitting: false
     })
-
-    window.parent.TicketBookmarklet.hide()
   }
 
   selectBoard(event) {
@@ -174,10 +174,10 @@ class TrelloNewCardForm extends React.Component {
     let device = parser.getDevice()
     let os = parser.getOS()
     let screenSize = {
-      width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-      height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+      width: params('screenWidth'),
+      height: params('screenHeight')
     }
-    let href = window.parent.location.href
+    let href = decodeURIComponent(params('href'))
 
     let screenshots = this.state.screenshots.reduce((memo, screenshot) => {
       return memo += "\n" + screenshot
@@ -219,14 +219,7 @@ ${screenshots}`,
       })
     })
     .then((response) => {
-      this.setState({
-        response: "success",
-        message: <strong>Card created successfully!</strong>
-      })
-
-      this.reset()
-
-      console.log("Trello card created", response)
+      this.props.success(response)
     })
     .catch((reason) => {
       this.setState({

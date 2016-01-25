@@ -1,7 +1,5 @@
 /* global Trello */
 
-import history from "../config/history.js"
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -10,16 +8,16 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    if(history.createLocation().pathname != "/authorize_failed") this.authorize()
+    if(this.props.history.createLocation().pathname != "/authorize_failed") this.authorize()
   }
 
   authorize() {
     new Promise((resolve, reject) => {
       Trello.authorize()
 
-      if(Trello.authorized()) {
+      if(!Trello.authorized()) {
         Trello.authorize({
-          type: "popup",
+          type: "redirect",
           name: APP_NAME,
           scope: {
             read: true,
