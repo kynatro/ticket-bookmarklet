@@ -1,5 +1,3 @@
-import Stylesheet from "../../stylesheets/components/new_card_form.scss"
-
 import UaParser from "ua-parser-js"
 
 import TrelloBoards from "./boards.jsx"

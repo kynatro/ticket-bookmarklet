@@ -7,10 +7,29 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <script src="vendor.js"></script>
+    <script src="demo.js"></script>
   </head>
   <body>
-    <main></main>
-    <script src="vendor.js"></script>
-    <script src="application.js"></script>
+    <main class="container">
+      <div class="jumbotron">
+        <h1 class="display-1">Ticket Bookmarklet</h1>
+
+        <p class="lead"><strong>Easily submit tickets to your Trello board.</strong> You will be asked to authorize Trello the first time you click on the bookmarklet, but everything will just work automatically after that. The bookmarklet will create a new card in the Trello list of your choice with all relevant user browser environment information.</p>
+
+        <p class="text-sm-center">
+          <a href='javascript:window.open("http://localhost:5000/app.html?href=" + encodeURIComponent(window.location.href) + "&screenWidth=" + (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + "&screenHeight=" + (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight), "trello_bookmarklet", "width=350,height=" + window.screen.height + ",top=0,left=" + (window.screen.width - 350) + ",menubar=off,toolbar=off,location=off,personalbar=off,status=off,chrome=off,titlebar=off"); void(null);' id="demo" class="btn btn-primary btn-lg" role="button">Submit Ticket</a>
+        </p>
+
+        <p class="text-muted text-sm-center">To install, drag this button to your bookmark bar</p>
+      </div>
+
+      <h2>Up-coming Features</h2>
+      <ul>
+        <li>Remember last position when re-opening</li>
+        <li>Auto-search for existing tickets and add comments instead of creating new cards.</li>
+      </ul>
+    </main>
   </body>
 </html>

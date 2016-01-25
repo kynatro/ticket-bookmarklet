@@ -15,7 +15,7 @@ var WebpackConfig = {
     application: './application.jsx',
     "index.html": './index.html',
     demo: './demo.js',
-    "demo.html": './demo.html',
+    "app.html": './app.html',
     vendor: ['jquery', 'react']
   },
 	output: {
@@ -101,7 +101,6 @@ var WebpackConfig = {
     // NOTE: Variables are evaluated, so must be passed in as though they
     // are defined statically in-line.
     new webpack.DefinePlugin({
-      HOST: JSON.stringify(process.env.HOST || "localhost:5000"),
       APP_NAME: JSON.stringify("Trello Ticket Bookmarklet"),
       TRELLO_API_KEY: JSON.stringify(process.env.TRELLO_API_KEY)
     }),
