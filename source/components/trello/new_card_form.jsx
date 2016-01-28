@@ -42,6 +42,8 @@ class TrelloNewCardForm extends React.Component {
       fields: "id,name,idOrganization",
       organization: true
     }, (boards) => {
+      let firstBoardId = boards[0].id
+
       this.setState({
         boards: boards
       })
@@ -49,12 +51,12 @@ class TrelloNewCardForm extends React.Component {
       // If no boardId is set, use the first board in the list
       if(!this.state.boardId) {
         this.setState({
-          boardId: this.state.boards[0].id
+          boardId: firstBoardId
         })
       }
 
       // Populate the lists immediately when the UI is loaded
-      this.getLists(this.state.boardId)
+      this.getLists(this.state.boardId || firstBoardId)
     }, (message) => {
       console.error(message)
     })
