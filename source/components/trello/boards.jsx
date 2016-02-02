@@ -18,7 +18,7 @@ class TrelloBoards extends React.Component {
     }
 
     this.props.boards.forEach((board) => {
-      let organizationId = board.idOrganization || "mine"
+      let organizationId = (board.organization && board.idOrganization) || "mine"
 
       if(board.organization && !organizations[organizationId]) {
         organizations[organizationId] = board.organization
