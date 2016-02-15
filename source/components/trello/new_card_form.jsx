@@ -24,6 +24,7 @@ class TrelloNewCardForm extends React.Component {
       cardName: "",
       lists: [],
       listId: localStorage.getItem('listId'),
+      meId: localStorage.getItem('meId'),
       message: "",
       organizations: {},
       response: null,
@@ -34,6 +35,7 @@ class TrelloNewCardForm extends React.Component {
 
   componentWillMount() {
     this.getBoards()
+    this.getMe()
   }
 
   getBoards() {
@@ -90,6 +92,18 @@ class TrelloNewCardForm extends React.Component {
       })
     })
     .catch((reason) => {
+      console.error(reason)
+    })
+  }
+
+  getMe() {
+    Trello.get('/member/me', (data) => {
+      this.setState({
+        meId: data.id
+      })
+
+      localStorage.setItem('meId', data.id)
+    }, (message) => {
       console.error(reason)
     })
   }
@@ -190,6 +204,7 @@ class TrelloNewCardForm extends React.Component {
     new Promise((resolve, reject) => {
       Trello.post("/cards/", {
         name: this.state.cardName,
+        idMembers: `${this.state.meId}`,
         desc: `${this.state.cardDescription}
 
 ---
