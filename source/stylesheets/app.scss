@@ -1,4 +1,9 @@
 @import "variables";
 @import "bower_components/bootstrap/scss/bootstrap-flex";
 
+html, body {
+  height: 100%;
+  overflow: auto;
+}
+
 .container-fluid { padding-top: 8px; }
